@@ -18,6 +18,7 @@ import { ConfigModule } from './config/config.module';
 import { CacheModule } from './common/cache/cache.module';
 import { CommonModule } from './common/common.module';
 import { HealthModule } from './modules/health/health.module';
+import { AvailabilityModule } from './modules/availability/availability.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { HealthModule } from './modules/health/health.module';
     ProfileModule,
     NotificationModule,
     BookingsModule,
+    AvailabilityModule,
     PaymentsModule,
     AuditModule,
     ReviewsModule,
