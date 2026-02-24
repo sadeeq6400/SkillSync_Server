@@ -11,15 +11,18 @@ import { MenteeProfileController } from './mentee-profile.controller';
 import { FileUploadController } from './file-upload.controller';
 import { AuthModule } from '../auth/auth.module';
 import { UserModule } from '../user/user.module';
+import { UserService } from '../user/providers/user.service';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { MentorProfile } from './entities/mentor-profile.entity';
 import { MenteeProfile } from './entities/mentee-profile.entity';
+import { User } from '../user/entities/user.entity';
+import { Wallet } from '../user/entities/wallet.entity';
 
 @Module({
   imports: [
     AuthModule,
     UserModule,
-    TypeOrmModule.forFeature([MentorProfile, MenteeProfile]),
+    TypeOrmModule.forFeature([MentorProfile, MenteeProfile, User, Wallet]),
     MulterModule.register({
       dest: './uploads',
     }),
@@ -35,6 +38,7 @@ import { MenteeProfile } from './entities/mentee-profile.entity';
     MentorProfileService,
     MenteeProfileService,
     FileUploadService,
+    UserService,
     RolesGuard,
   ],
 })

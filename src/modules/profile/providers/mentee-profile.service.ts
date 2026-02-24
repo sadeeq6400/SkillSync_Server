@@ -104,4 +104,11 @@ export class MenteeProfileService {
       },
     });
   }
+
+  async findByUserIdOptional(userId: string): Promise<MenteeProfile | null> {
+    return this.menteeProfileRepository.findOne({
+      where: { user: { id: userId } },
+      relations: ['user'],
+    });
+  }
 }

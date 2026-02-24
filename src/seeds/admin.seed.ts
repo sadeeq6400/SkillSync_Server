@@ -64,9 +64,6 @@ async function run() {
         // Only replace if password is missing
         if (!user.passwordHash) {
           user.passwordHash = await bcrypt.hash(ADMIN_PASSWORD, 10);
-        // Only replace if passwordHash is missing
-        if (!user.passwordHash) {
-          (user as any).passwordHash = await bcrypt.hash(ADMIN_PASSWORD, 10);
           logger.log('Set password for admin user');
         }
       }

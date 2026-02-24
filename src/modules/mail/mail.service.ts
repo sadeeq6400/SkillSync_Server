@@ -242,70 +242,12 @@ export class MailService {
         subject,
         html,
       });
-   * 🔐 Generate a 6-digit OTP, persist it with a 10-minute expiry, and send it
-   * to the provided email address.
-   *
-   * @param email   Recipient email address
-   * @param purpose Optional purpose tag (default: 'password_reset')
-   * @returns       The generated OTP and its expiry timestamp
-   */
-  async sendOtpEmail(
-    email: string,
-    purpose: string = 'password_reset',
-  ): Promise<OtpResult> {
-    if (!email || !this.isValidEmail(email)) {
-      throw new Error('Invalid email address provided');
-    }
-
-    // 1. Generate cryptographically secure 6-digit OTP (000000 – 999999)
-    const otp = this.generateSecureOtp();
-
-    // 2. Calculate expiry (now + OTP_TTL_MINUTES)
-    const expiresAt = new Date(Date.now() + this.OTP_TTL_MINUTES * 60 * 1000);
-
-    // 3. Persist — automatically invalidates any previous OTP for this email
-    const record: OtpRecord = {
-      otp,
-      expiresAt,
-      email: email.toLowerCase(),
-      purpose,
-      createdAt: new Date(),
-    };
-    this.otpStore.set(email, record);
-    this.logger.log(`OTP stored for email (masked: ${this.maskEmail(email)}), purpose: ${purpose}`);
-
-    // 4. Render template & send email
-    try {
-      const template = await this.loadTemplate('otp.ejs');
-
-      const templateVars = {
-        otp,
-        appName: this.configService.mailAppName,
-        expiryMinutes: this.OTP_TTL_MINUTES,
-        expiresAt: this.formatDate(expiresAt),
-        year: new Date().getFullYear(),
-        purpose,
-      };
-
-      let html = processConditionals(template, templateVars);
-      html = renderTemplate(html, templateVars);
-
-      const subject = `${this.configService.mailSubjectPrefix} ${this.OTP_SUBJECT}`;
-      const from = this.configService.mailSender;
-
-      this.logger.log(`Sending OTP email to user`);
-
-      await this.dispatchEmail({ to: email, from, subject, html });
 
       this.logger.log(`OTP email sent successfully`);
     } catch (error) {
       this.logger.error(`Failed to send OTP email: ${error.message}`);
       // Don't throw - fail gracefully
     }
-      // OTP is still persisted — caller can retry sending without regenerating
-    }
-
-    return { otp, expiresAt };
   }
 
   /**

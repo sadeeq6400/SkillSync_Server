@@ -100,4 +100,11 @@ export class MentorProfileService {
     profile.isVerified = isVerified;
     return this.mentorProfileRepository.save(profile);
   }
+
+  async findByUserIdOptional(userId: string): Promise<MentorProfile | null> {
+    return this.mentorProfileRepository.findOne({
+      where: { user: { id: userId } },
+      relations: ['user'],
+    });
+  }
 }
