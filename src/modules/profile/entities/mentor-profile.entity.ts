@@ -83,6 +83,10 @@ export class MentorProfile {
   @Column({ default: true })
   isAvailable: boolean;
 
+  @ApiPropertyOptional({ description: 'Is mentor profile verified by admin' })
+  @Column({ default: false })
+  isVerified: boolean;
+
   @ApiPropertyOptional({
     description: 'IANA timezone identifier for the mentor (e.g. "America/New_York")',
     example: 'America/New_York',

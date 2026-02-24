@@ -268,6 +268,8 @@ export class AuthController {
     });
     
     return res.json({ csrfToken });
+  }
+
   @Post('forgot-password')
   @RateLimit(RateLimits.NORMAL)
   @ApiOperation({ summary: 'Request password reset OTP' })

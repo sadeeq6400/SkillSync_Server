@@ -94,4 +94,10 @@ export class MentorProfileService {
       .andWhere('mentorProfile.skills && :skills', { skills })
       .getMany();
   }
+
+  async toggleVerification(id: string, isVerified: boolean): Promise<MentorProfile> {
+    const profile = await this.findOne(id);
+    profile.isVerified = isVerified;
+    return this.mentorProfileRepository.save(profile);
+  }
 }
