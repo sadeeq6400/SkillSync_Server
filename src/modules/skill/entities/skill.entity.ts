@@ -9,8 +9,18 @@ export class Skill {
   @Column({ unique: true })
   name: string;
 
+
+  @Column('text', { array: true, nullable: true })
+  aliases?: string[];
+
+  @Column({ type: 'text', nullable: true })
+  description?: string;
+
   @OneToMany(() => MentorSkill, mentorSkill => mentorSkill.skill)
   mentorSkills: MentorSkill[];
+
+  @Column({ type: 'tsvector', select: false, nullable: true })
+  searchVector?: string;
 
   @CreateDateColumn()
   createdAt: Date;
