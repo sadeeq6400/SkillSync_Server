@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SkillModule } from './modules/skill/skill.module';
+import { TagModule } from './modules/tag/tag.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
@@ -24,6 +25,7 @@ import { AvailabilityModule } from './modules/availability/availability.module';
 @Module({
   imports: [
     SkillModule,
+    TagModule,
     ConfigModule,
     DatabaseModule,
     CacheModule,

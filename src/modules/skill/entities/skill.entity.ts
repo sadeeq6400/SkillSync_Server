@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import { Tag } from '../../tag/entities/tag.entity';
 import { MentorSkill } from '../../mentor_skills/entities/mentor-skill.entity';
 
 @Entity('skills')
@@ -21,6 +22,10 @@ export class Skill {
 
   @Column({ type: 'tsvector', select: false, nullable: true })
   searchVector?: string;
+
+  @ManyToMany(() => Tag, tag => tag.skills, { cascade: true })
+  @JoinTable({ name: 'skill_tags' })
+  tags: Tag[];
 
   @CreateDateColumn()
   createdAt: Date;
