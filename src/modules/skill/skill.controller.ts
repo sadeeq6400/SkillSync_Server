@@ -10,7 +10,9 @@ export class SkillController {
     @Query('q') q: string,
     @Query('page') page = 1,
     @Query('limit') limit = 10,
+    @Query('tags') tags?: string,
   ) {
-    return this.skillService.search(q, Number(page), Number(limit));
+    const tagArr = tags ? tags.split(',').map(t => t.trim()).filter(Boolean) : [];
+    return this.skillService.search(q, Number(page), Number(limit), tagArr);
   }
 }
